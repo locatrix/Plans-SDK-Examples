@@ -1,0 +1,54 @@
+﻿@page "/client"
+
+@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Partners</a></li>
+    <li class="breadcrumb-item"><a href="/partner?@Prefixes.Partner=@PartnerCode">Clients</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Campuses</li>
+  </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <CampusList PartnerCode="@PartnerCode" ClientCode="@ClientCode"/>
+        </div>
+        <div class="col-md-8">
+            <div id="osm-mapdiv" style = "width: 100%; height: 500px"></div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public string PartnerCode = "";
+    public string ClientCode = "";
+
+    protected override void OnParametersSet()
+    {
+        var query = new Uri(NavigationManager.Uri).Query;
+
+        if (QueryHelpers.ParseQuery(query).TryGetValue(Prefixes.Partner, out var p))
+        {
+            PartnerCode = p;
+        }
+
+        if (QueryHelpers.ParseQuery(query).TryGetValue(Prefixes.Client, out var c))
+        {
+            ClientCode = c;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) {
+            var token  = await Helpers.GetBearerTokenEsapi(Constants.ApplicationId, Constants.ApplicationSecret, Constants.ApiKey, Constants.ApiSecret);
+            HierarchyModels.CampusViewModel client = await Helpers.GetCampusList(token, PartnerCode, ClientCode);
+            HierarchyModels.LatLng[] markers = client.Campuses.Select(c => new HierarchyModels.LatLng(c.Longitude ?? 0, c.Latitude ?? 0)).ToArray();
+            await JSRuntime.InvokeVoidAsync("addMap", (object)markers);
+        }
+    }
+}

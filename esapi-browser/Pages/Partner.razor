@@ -1,0 +1,32 @@
+﻿@page "/partner"
+
+@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager NavigationManager
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Partners</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Clients</li>
+  </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <ClientList PartnerCode="@PartnerCode"/>
+        </div>
+    </div>
+</div>
+
+@code {
+    public string PartnerCode = "";
+    protected override void OnParametersSet()
+    {
+        var query = new Uri(NavigationManager.Uri).Query;
+
+        if (QueryHelpers.ParseQuery(query).TryGetValue(Prefixes.Partner, out var p))
+        {
+            PartnerCode = p;
+        }
+    }
+}

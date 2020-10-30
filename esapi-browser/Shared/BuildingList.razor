@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager NavigationManager
+
+<h4>Buildings</h4>
+@if (buildings == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ul class="list-group">
+    @foreach (var building in buildings)
+    {
+        string link = $"building?{Prefixes.Partner}={PartnerCode}&{Prefixes.Client}={ClientCode}&{Prefixes.Campus}={CampusCode}&{Prefixes.Building}={building.Code}";
+        <li class="list-group-item"><NavLink class="nav-link" href="@link">@building.Name</NavLink></li>
+    }
+    </ul>
+}
+
+@code {
+    [Parameter]
+    public string PartnerCode { get; set; }
+    [Parameter]
+    public string ClientCode { get; set; }
+    [Parameter]
+    public string CampusCode { get; set; }
+    private HierarchyModels.BuildingViewModel[] buildings;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var token  = await Helpers.GetBearerTokenEsapi(Constants.ApplicationId, Constants.ApplicationSecret, Constants.ApiKey, Constants.ApiSecret);
+        var client = await Helpers.GetCampusList(token, PartnerCode, ClientCode);
+        buildings = client.Campuses.Where(c => c.Code == CampusCode).First().Buildings.ToArray();
+    }
+}

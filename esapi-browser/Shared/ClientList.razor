@@ -1,0 +1,31 @@
+﻿@using System.Net.Http
+@inject HttpClient Http
+
+<h4>Clients</h4>
+@if (clients == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ul class="list-group">
+    @foreach (var client in clients)
+    {
+        string link = $"client?{Prefixes.Partner}={PartnerCode}&{Prefixes.Client}={client.Code}";
+        <li class="list-group-item"><NavLink class="nav-link" href="@link">@client.Name</NavLink></li>
+    }
+    </ul>
+}
+
+@code {
+    [Parameter]
+    public string PartnerCode { get; set; }
+    private HierarchyModels.ClientViewModel[] clients;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var token  = await Helpers.GetBearerTokenEsapi(Constants.ApplicationId, Constants.ApplicationSecret, Constants.ApiKey, Constants.ApiSecret);
+        clients = await Helpers.GetClientList(token, PartnerCode);
+        return;
+    }
+}

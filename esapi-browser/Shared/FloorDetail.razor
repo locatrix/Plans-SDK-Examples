@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager NavigationManager
+
+<h4>Embed API Sampler</h4>
+<iframe height="500px" width="100%" src="@EmbedURL"></iframe>
+
+@code {
+    [Parameter]
+    public string PartnerCode { get; set; }
+    [Parameter]
+    public string ClientCode { get; set; }
+    [Parameter]
+    public string CampusCode { get; set; }
+    [Parameter]
+    public string BuildingCode { get; set; }
+    [Parameter]
+    public string FloorCode { get; set; }
+    private string EmbedURL = "";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var token  = await Helpers.GetBearerTokenEsapi(Constants.ApplicationId, Constants.ApplicationSecret, Constants.ApiKey, Constants.ApiSecret);
+        var floor = await Helpers.GetFloorViewerToken(token, PartnerCode, FloorCode);
+        EmbedURL = $"{Constants.EmbedApiUrl}/plan?layers=structure,equipment,indicators,zone,sign&interactive=true&viewerToken=" + floor.ViewerTokens.AllAreas;
+    }
+}

@@ -1,0 +1,57 @@
+﻿@page "/floor"
+
+@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager NavigationManager
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Partners</a></li>
+    <li class="breadcrumb-item"><a href="/partner?@Prefixes.Partner=@PartnerCode">Clients</a></li>
+    <li class="breadcrumb-item"><a href="/client?@Prefixes.Partner=@PartnerCode&@Prefixes.Client=@ClientCode">Campuses</a></li>
+    <li class="breadcrumb-item"><a href="/campus?@Prefixes.Partner=@PartnerCode&@Prefixes.Client=@ClientCode&@Prefixes.Campus=@CampusCode">Buildings</a></li>
+    <li class="breadcrumb-item"><a href="/building?@Prefixes.Partner=@PartnerCode&@Prefixes.Client=@ClientCode&@Prefixes.Campus=@CampusCode&@Prefixes.Building=@BuildingCode">Floors</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Floor Details</li>
+  </ol>
+</nav>
+
+<div class="container">
+    <FloorDetail PartnerCode="@PartnerCode" ClientCode="@ClientCode" CampusCode="@CampusCode" BuildingCode="@BuildingCode" FloorCode="@FloorCode" />
+</div>
+
+@code {
+    public string PartnerCode = "";
+    public string ClientCode = "";
+    public string CampusCode = "";
+    public string BuildingCode = "";
+    public string FloorCode = "";
+
+    protected override void OnParametersSet()
+    {
+        var query = new Uri(NavigationManager.Uri).Query;
+
+        if (QueryHelpers.ParseQuery(query).TryGetValue(Prefixes.Partner, out var p))
+        {
+            PartnerCode = p;
+        }
+
+        if (QueryHelpers.ParseQuery(query).TryGetValue(Prefixes.Client, out var c))
+        {
+            ClientCode = c;
+        }
+
+        if (QueryHelpers.ParseQuery(query).TryGetValue(Prefixes.Campus, out var ca))
+        {
+            CampusCode = ca;
+        }
+
+        if (QueryHelpers.ParseQuery(query).TryGetValue(Prefixes.Building, out var b))
+        {
+            BuildingCode = b;
+        }
+
+        if (QueryHelpers.ParseQuery(query).TryGetValue(Prefixes.Floor, out var f))
+        {
+            FloorCode = f;
+        }
+    }
+}

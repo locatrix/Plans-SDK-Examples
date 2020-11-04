@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Locatrix Plans Static API - ground overlays using Google Georeferenced image</title>
+    <style>
+      #map {
+        height: 100%;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var QUERY_ARGS = 'partner=ptnr_0djkhp1jlh316r3n48alwnzp9&floor=flr_oopxxdnfthppgvlgunj46p7dn&format=png&w=1024&h=1024&expiry=2055369600&rotation=northUp&apikey=65101207-60c6-2250-3ec1-c99f3eb20793&sas=gE8LRRlH3Jw5zJoPiBBtojU6robHJwulxkoNp%2BMIFEo%3D'
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 20,
+          center: {lat: -27.6662805, lng: 153.1754998},
+          mapTypeId: 'satellite'
+        })
+
+        // hit georef API to get georeferencing info.
+        // You could do this on the server-side and embed the result in your web page if you wanted to.
+        // Use identical args for the georef and image APIs, to keep things simple.
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', 'https://api.locatrix.com/plans-static/v1/georef?' + QUERY_ARGS, true)
+        xhr.onload = function () {
+          const georef = JSON.parse(xhr.response)
+
+          // add our image overlay, using the georeferencing info
+          var overlay = new google.maps.GroundOverlay('https://api.locatrix.com/plans-static/v1/image?' + QUERY_ARGS, {
+            north: georef.coordinates[0][1],
+            west: georef.coordinates[0][0],
+            south: georef.coordinates[2][1],
+            east: georef.coordinates[2][0]
+          })
+
+          overlay.setMap(map)
+        }
+        xhr.send()
+
+      }
+    </script>
+    <!-- In order to remove the watermark it is necessary to have your own Google API key here https://developers.google.com/maps/gmp-get-started -->
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_API_KEY&callback=initMap"></script> -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
+  </body>
+</html>

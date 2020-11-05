@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Locatrix Plans SDK: Use of hosted Embed API to show simple interactive plan viewers</title>
+</head>
+<title>Locatrix Plans SDK example - Embed API</title>
+<style>
+	#map {
+		height: 100%;
+	}
+
+	html,
+	body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+
+	div {
+		text-align: center;
+	}
+
+	iframe {
+		width: 40%;
+		height: 300px;
+		border: 1px solid black;
+	}
+
+	img {
+		width: 40%;
+		border: 1px solid rgb(117, 11, 11);
+	}
+
+	p {
+		font: normal normal 14px/1.4em raleway, sans-serif;
+		text-align: center;
+		margin-left: 25%;
+		margin-right: 25%;
+	}
+
+	h1,
+	h2 {
+		margin-bottom: 4px;
+		color: #dd6730;
+		font: normal normal bold 26px/1.4em raleway, sans-serif;
+	}
+
+	h3 {
+		margin-bottom: 4px;
+		color: #dd6730;
+		font: normal normal bold 22px/1.4em raleway, sans-serif;
+	}
+
+	h4 {
+		margin-bottom: 2px;
+		color: #54AFDB;
+		font: normal normal bold 20px/1.4em raleway, sans-serif;
+	}
+</style>
+
+<body>
+
+	<div>
+		<p>The panels below illustrate usage of the Embed API that is part of the Locatrix Plans SDK. Any changes made to
+			the plans shown below using <a href='https://www.locatrix.com/planstudio' target='_blank'>PlanStudio</a> or <a
+				href='https://planstudio.locatrix.com' target='_blank'>PlanStudio Web</a> will be reflected immediately on
+			saving. Tokens have an expiry.</p>
+		<h1>Campus: Locatrix Plans SDK Partner>PlanStudio Academy>Locatrix World HQ</h1>
+		<h2>Siteplan: Locatrix World HQ</h2>
+		<iframe
+			src='https://api.locatrix.com/plans-embed/v1/plan?interactive=true&viewerToken=djE6YWxsQXJlYXM6cGxuX3htbWRubGVkMGk1M3h1NzF1ejJ1bW41OHc6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNjYsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLEElMmJMbmZtbWFtSHliSFdocW5ZZXJMbVRUcGZZUWQ0ZlRqWmI0dEtDQXdpdyUzZA=='></iframe>
+		<h3>Building: HQ Building 1</h3>
+		<h4>Floor: Level 1</h4>
+		<iframe
+			src='https://api.locatrix.com/plans-embed/v1/plan?layers=structure,equipment,indicators,zone,sign&interactive=true&viewerToken=djE6YWxsQXJlYXM6cGxuXzVzOWwzeDFyaGs5amw3b3BlaDc5NWxmNDM6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNjcsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLHEzRkk3YjVXRHdCYlprNiUyZlRnV0pjdmJiVWF5MGRVemNJNjNRMm1DdHNQayUzZA=='></iframe>
+		<h4>Floor: Level 2</h4>
+		<iframe
+			src='https://api.locatrix.com/plans-embed/v1/plan?layers=structure,equipment,indicators,zone,sign&interactive=true&viewerToken=djE6YWxsQXJlYXM6cGxuX3BzdnpoOHBlcHprdzlraGZlbW5pMG9nOTk6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNjgsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLFlFaGtVVFNtZVEwcDhXbGZSR3VVQUo5VDlBdUFacWVoJTJiQ2ZJS3lpWDBIayUzZA=='></iframe>
+		<h3>Building: HQ Building 2</h3>
+		<h4>Floor: Ground Floor</h4>
+		<iframe
+			src='https://api.locatrix.com/plans-embed/v1/plan?layers=structure,equipment,indicators,zone,sign&interactive=true&viewerToken=djE6YWxsQXJlYXM6cGxuX2Q0am92dnlkNXo4anVrY2ZwdWhqZGt0NTE6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNjksNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLHVEYVRjbUJWeno5NVVsZDBKUXNQOElCeUFhVkhXVHV5Y21lUmRmU0NKQ2MlM2Q='></iframe>
+		<h1>Campus: Locatrix Plans SDK Partner>PlanStudio Academy>Hyperdome Shopping Centre</h1>
+		<h2>Siteplan: Hyperdome Shopping Centre</h2>
+		<iframe
+			src='https://api.locatrix.com/plans-embed/v1/plan?interactive=true&viewerToken=djE6YWxsQXJlYXM6cGxuXzkxODlkanI0cWd1MDY3ZDNrYW10M3R0ZHQ6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNzAsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLFFUTmFZOSUyZmRRaXY3aFZWanY5ODlFQXc5WkZweFRnV3JvYm9nYyUyZnQwSG5vJTNk'></iframe>
+		<h3>Building: Main Concourse</h3>
+		<h4>Floor: Main Concourse & Rotunda</h4>
+		<iframe
+			src='https://api.locatrix.com/plans-embed/v1/plan?layers=structure,equipment,indicators,zone,sign&interactive=true&viewerToken=djE6YWxsQXJlYXM6cGxuX3VtczFvbjVsNDI1YTF0NTlhZ2I4NmthdjY6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNzEsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLGxQUDBwaWNURHE3JTJmJTJiSHdpNFhwRHlZQ2cwdkpzOVM1ZU1seDZLWXl2ajM0JTNk'></iframe>
+	</div>
+
+</body>
+
+</html>

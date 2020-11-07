@@ -6,7 +6,7 @@ This is a simple starter application for the [Enterprise Services API](https://a
 
 ## Prerequisites
 
-- [https://dotnet.microsoft.com/download/dotnet-core/3.1]().NET Core 3.1.402) or higher.
+- [.NET Core 3.1.402](https://dotnet.microsoft.com/download/dotnet-core/3.1) or higher.
 
 ## Quick Start
 

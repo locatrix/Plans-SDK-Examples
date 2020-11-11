@@ -57,19 +57,19 @@ static class Helpers
 
     public static async Task<string> GetBearerTokenEsapi(string clientId, string clientSecret, string username, string password)
     {
-        var ncswpf_passwordTokenRequest = new PasswordTokenRequest
+        var passwordTokenRequest = new PasswordTokenRequest
         {
             Address = $"{Constants.AuthenticationApiUrl}/connect/token",
 
             ClientId = clientId,
             ClientSecret = clientSecret,
-            Scope = "crmadapterservice-api-scope",
+            Scope = "esapi-scope",
 
             UserName = username,
             Password = password
         };
 
-        var response = await client.RequestPasswordTokenAsync(ncswpf_passwordTokenRequest);
+        var response = await client.RequestPasswordTokenAsync(passwordTokenRequest);
         return response.AccessToken;
     }
 

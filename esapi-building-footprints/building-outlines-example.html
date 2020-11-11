@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Building outlines from Locatrix Plans SDK - ESAPI</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+		integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+		crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+		integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+		crossorigin=""></script>
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		
+		.full-height {
+			height: 100%;
+		}
+	</style>
+</head>
+
+<body>
+        <div id="mapid" class="full-height"></div>
+	<script>		
+		var buildings = []; // array of buildings populated from including script buildings-data.geojson.js below
+	</script>
+	<script src=".\building-data.geojson.js"></script>
+	<script>
+		function onEachFeature(feature, layer) {
+
+			if (feature.properties.partner !== undefined){
+				var popupContent = "Partner: <b>" + feature.properties.partner + "</b><br/>";
+				popupContent += "Client: <b>" + feature.properties.client + "</b><br/>";
+				popupContent += "Campus: <a href='" + feature.properties.siteplan + "' target='_blank'>" + feature.properties.campus + "</a><br/><br/>";
+				popupContent += "Building: <b>" + feature.properties.building + "</b></br>";
+				popupContent += "<b>" + feature.properties.description + "</b><br/>";
+
+				feature.properties.floors.map(function(floor) {
+						popupContent += "<a href='" + floor.link + "' target='_blank'>" + floor.name + "</a><br/>";
+				});
+
+				layer.bindPopup(popupContent);
+			}
+		}
+
+		var AustralianMedianPoint = [-24.25, 133.4];
+		var mymap = L.map('mapid').setView(AustralianMedianPoint, 5);
+
+		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib3Jlc3RvbmUiLCJhIjoiY2pveWU2NmIzMmgzbzNwanhpbnlpbnlmcyJ9.ceFZ6DW-oKwnw02aY6TuUw', {
+
+		  maxZoom: 25,
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			id: 'mapbox/streets-v11',
+			tileSize: 512,
+			zoomOffset: -1
+		}).addTo(mymap);
+
+		window.addEventListener('load', function () {
+				L.geoJSON(buildings, {
+					style: {
+						fillColor: "#401010",
+						color: '#111111',
+						fillOpacity: 0.1,
+					},
+					onEachFeature: onEachFeature,
+				}).addTo(mymap);
+			}
+		);
+
+	</script>
+</body>
+</html>

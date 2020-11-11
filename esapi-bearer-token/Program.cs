@@ -33,20 +33,20 @@ namespace esapi_bearer_token
         public static string GetBearerTokenEsapi(string applicationId, string applicationSecret, string apiKey, string apiSecret)
         {
             var client = new HttpClient();
-            var ncswpf_passwordTokenRequest = new PasswordTokenRequest
+            var passwordTokenRequest = new PasswordTokenRequest
             {
                 Address = "https://auth.locatrix.com/connect/token",
 
                 ClientId = applicationId,
                 ClientSecret = applicationSecret,
 
-                Scope = "crmadapterservice-api-scope",
+                Scope = "esapi-scope",
 
                 UserName = apiKey,
                 Password = apiSecret
             };
 
-            var response = client.RequestPasswordTokenAsync(ncswpf_passwordTokenRequest).Result;
+            var response = client.RequestPasswordTokenAsync(passwordTokenRequest).Result;
             return response.AccessToken;
         }
     }

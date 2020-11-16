@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using Newtonsoft.Json;
 
@@ -32,6 +33,7 @@ namespace esapi_building_footprints
         private static void EnumerateAllBuildings()
         {
             BearerToken = $"bearer {Helpers.GetBearerTokenEsapi(ApplicationId, ApplicationSecret, ApiKey, ApiSecret)}";
+            Console.Out.WriteLine($"{BearerToken}");
             var partnerList = Helpers.GetPartnerList(BearerToken);
             using (var writeFile = new StreamWriter($"./building-data.geojson.js"))
             {
@@ -45,7 +47,7 @@ namespace esapi_building_footprints
                     var clientsSummaryList = Helpers.GetClientsSummaryList(BearerToken, partner.Code);
                     foreach (var client in clientsSummaryList)
                     {
-                        Console.Out.WriteLine($"  Client: {client.Name}");
+                        Console.Out.WriteLine($"  Client: {client.Name} {client.Code}");
 
                         var clientDetailViewModel = Helpers.GetClientDetails(BearerToken, partner.Code, client.Code);
 
@@ -59,11 +61,22 @@ namespace esapi_building_footprints
                             {
                                 Console.Out.WriteLine($"      Building: {building.Name} {building.Code}");
 
-                                var outline = Helpers.GetBuildingOutline(BearerToken, partner.Code, building.Code);
-                                writeFile.WriteLine($"buildings.push({outline});");
+                                var response = Helpers.GetBuildingOutline(BearerToken, partner.Code, building.Code);
 
-                                var pin = JsonPrettify(CreateDropPin(partner, client, campus, building));
-                                writeFile.WriteLine($"buildings.push({pin});");
+                                if (response.StatusCode == HttpStatusCode.OK)
+                                {
+                                    var outline = response.Content;
+                                    writeFile.WriteLine($"buildings.push({outline});");
+                                 
+                                    var pin = JsonPrettify(CreateDropPin(partner, client, campus, building));
+                                    writeFile.WriteLine($"buildings.push({pin});");
+                                }
+                                else
+                                {
+                                    var pin = JsonPrettify(CreateErrorDropPin(campus.Longitude, campus.Latitude, response.Content));
+                                    writeFile.WriteLine($"buildings.push({pin});");
+                                }
+
                             }
                         }
                         writeFile.Flush();
@@ -101,6 +114,20 @@ namespace esapi_building_footprints
                                         'floors': [
                                             {string.Join(",", floorlinks)}
                                         ],
+                                    }}}}";
+            return dropPinGeoJson;
+        }    
+        
+        private static string CreateErrorDropPin(double? longitude, double? latitude, string message)
+        {
+            var dropPinGeoJson = @$"{{'type': 'Feature',
+                                    'geometry': {{
+                                        'type': 'Point',
+                                        'coordinates': [{longitude}, {latitude}]
+                                    }},
+                                    'properties': {{
+                                        'error': '{true}',
+                                        'message': '{HttpUtility.JavaScriptStringEncode(message)}',
                                     }}}}";
             return dropPinGeoJson;
         }

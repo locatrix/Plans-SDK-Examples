@@ -32,20 +32,24 @@
 	<script>
 		function onEachFeature(feature, layer) {
 
-			if (feature.properties.partner !== undefined){
-				var popupContent = "Partner: <b>" + feature.properties.partner + "</b><br/>";
-				popupContent += "Client: <b>" + feature.properties.client + "</b><br/>";
-				popupContent += "Campus: <a href='" + feature.properties.siteplan + "' target='_blank'>" + feature.properties.campus + "</a><br/><br/>";
-				popupContent += "Building: <b>" + feature.properties.building + "</b></br>";
-				popupContent += "<b>" + feature.properties.description + "</b><br/>";
+            var popupContent = "";
+            if (feature.properties.error === 'True') {
+                popupContent += "<p>" + feature.properties.message + "</p>";
+            } else {
+                if (feature.properties.partner !== undefined) {
+                    popupContent += "Partner: <b>" + feature.properties.partner + "</b><br/>";
+                    popupContent += "Client: <b>" + feature.properties.client + "</b><br/>";
+                    popupContent += "Campus: <a href='" + feature.properties.siteplan + "' target='_blank'>" + feature.properties.campus + "</a><br/><br/>";
+                    popupContent += "Building: <b>" + feature.properties.building + "</b></br>";
+                    popupContent += "<b>" + feature.properties.description + "</b><br/>";
 
-				feature.properties.floors.map(function(floor) {
-						popupContent += "<a href='" + floor.link + "' target='_blank'>" + floor.name + "</a><br/>";
-				});
-
-				layer.bindPopup(popupContent);
-			}
-		}
+                    feature.properties.floors.map(function(floor) {
+                        popupContent += "<a href='" + floor.link + "' target='_blank'>" + floor.name + "</a><br/>";
+                    });
+                }
+            }
+            layer.bindPopup(popupContent);
+        }
 
 		var AustralianMedianPoint = [-24.25, 133.4];
 		var mymap = L.map('mapid').setView(AustralianMedianPoint, 5);

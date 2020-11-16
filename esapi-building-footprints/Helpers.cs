@@ -101,7 +101,7 @@ namespace esapi_building_footprints
             return obj;
         }
 
-        public static string GetBuildingOutline(string bearerToken, string partnerCode, string buildingCode)
+        public static IRestResponse GetBuildingOutline(string bearerToken, string partnerCode, string buildingCode)
         {
             var client = new RestClient($"{Program.EnterpriseServicesApiUrl}/Buildings/{buildingCode}/Outlines");
             client.Timeout = -1;
@@ -111,9 +111,7 @@ namespace esapi_building_footprints
             request.AddHeader("X-CSS-Partner-Code", partnerCode);
             var response = client.Execute(request);
 
-            // var geoJson = GetResponseObject<OutlineModels.BuildingOutlinesGeoJson>(response);
-
-            return response.Content;
+            return response;
         }
 
         private static T GetResponseObject<T>(IRestResponse response) where T : new()

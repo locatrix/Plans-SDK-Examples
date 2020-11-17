@@ -42,12 +42,12 @@ namespace esapi_building_footprints
                 foreach (var partner in partnerList)
                 {
                     BearerToken = $"bearer {Helpers.GetBearerTokenEsapi(ApplicationId, ApplicationSecret, ApiKey, ApiSecret)}";
-                    Console.Out.WriteLine($"Partner: {partner.Name} {partner.Code}");
+                    Console.Out.WriteLine($"Partner: {partner.Name} [{partner.Code}]");
 
                     var clientsSummaryList = Helpers.GetClientsSummaryList(BearerToken, partner.Code);
                     foreach (var client in clientsSummaryList)
                     {
-                        Console.Out.WriteLine($"  Client: {client.Name} {client.Code}");
+                        Console.Out.WriteLine($"  Client: {client.Name} [{client.Code}]");
 
                         var clientDetailViewModel = Helpers.GetClientDetails(BearerToken, partner.Code, client.Code);
 
@@ -55,17 +55,17 @@ namespace esapi_building_footprints
                                     .Where(i => i.Latitude != null) // guard should not be required for well drafted plans
                             )
                         {
-                            Console.Out.WriteLine($"    Campus: {campus.Name} {campus.Latitude}");
+                            Console.Out.WriteLine($"    Campus: {campus.Name} {campus.Latitude} [{campus.Code}]");
 
                             foreach (var building in campus.Buildings)
                             {
-                                Console.Out.WriteLine($"      Building: {building.Name} {building.Code}");
+                                Console.Out.WriteLine($"      Building: {building.Name} [{building.Code}]");
 
                                 var response = Helpers.GetBuildingOutline(BearerToken, partner.Code, building.Code);
 
                                 if (response.StatusCode == HttpStatusCode.OK)
                                 {
-                                    var outline = response.Content;
+                                    var outline = JsonPrettify(response.Content);
                                     writeFile.WriteLine($"buildings.push({outline});");
                                  
                                     var pin = JsonPrettify(CreateDropPin(partner, client, campus, building));
@@ -94,7 +94,7 @@ namespace esapi_building_footprints
             HierarchyModels.BuildingViewModel building)
         {
             var viewToken = Helpers.GetCampusViewerToken(Program.BearerToken, partner.Code, campus.Code);
-            var embedApiUrlCampus = $"{EmbedApiUrl}/plan?layers=structure,equipment,zone&interactive=true&viewerToken=" + viewToken.ViewerTokens.AllAreas;
+            var embedApiUrlCampus = $"{EmbedApiUrl}/plan?interactive=true&viewerToken=" + viewToken.ViewerTokens.AllAreas;
 
             var floorlinks = new List<string>();
             building.Floors.ForEach(fvm => floorlinks.Add(FloorlinkJsonBlob(fvm, partner.Code)));
@@ -139,7 +139,7 @@ namespace esapi_building_footprints
             // See the documentation for layers and icons information
             // https://api.locatrix.com/docs/plans-static-api/generating-images/layer-names.html
 
-            var embedApiFloorUrl = $"{EmbedApiUrl}/plan?layers=structure,zone&interactive=true&viewerToken={floorViewToken.ViewerTokens.AllAreas}";
+            var embedApiFloorUrl = $"{EmbedApiUrl}/plan?layers=structure,equipment,zone&interactive=true&viewerToken={floorViewToken.ViewerTokens.AllAreas}";
 
             var link = $@"{{
                                     'name' : '{HttpUtility.JavaScriptStringEncode(fvm.Name)}',

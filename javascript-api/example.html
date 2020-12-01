@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Locatrix Plan</title>
+    <script src="https://api.locatrix.com/plans-javascript/v1/sdk.js"></script>
+  </head>
+  <body style="width: 100vw; height: 100vh; margin: 0;">
+    <div id="viewer" style="width: 100%; height: 100%;"></div>
+    <script>
+      var viewer = new locatrix.plans.Viewer(document.querySelector('#viewer'))
+      viewer.loadPlan('djE6YWxsQXJlYXM6cGxuXzVzOWwzeDFyaGs5amw3b3BlaDc5NWxmNDM6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNjcsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLHEzRkk3YjVXRHdCYlprNiUyZlRnV0pjdmJiVWF5MGRVemNJNjNRMm1DdHNQayUzZA==', { enableAllIcons: true, useNaturalRotation: false })
+      viewer.setCameraMode('interactive')
+      viewer.widgets.scaleIndicator.setEnabled(true)
+
+      const iconTypes = []
+      if (iconTypes.length > 0) {
+        viewer.setEnabledIconTypes(iconTypes)
+      }
+
+      const layerIds = ["terrain", "fixture", "wall", "detail", "frame", "hingedDoor", "slidingDoor", "foldingDoor", "rollerDoor", "window", "stairway", "zonedIconFill", "securityCamera", "evacSign", "leaderLineIcon", "zonedIcon", "fixedIcon", "exitSign", "smokeWallIndicator", "fireWallIndicator", "smokeDoorIndicator", "fireDoorIndicator", "interiorZone", "commonZone", "tenantedZone", "otherTenantedZone", "identifiedZone", "presentationZone", "draftWatermark", "northIndicator", "yahIndicator", "attribution"]
+      if (layerIds.length > 0) {
+        viewer.setEnabledLayerIds(layerIds)
+      }
+
+    </script>
+  </body>
+</html>

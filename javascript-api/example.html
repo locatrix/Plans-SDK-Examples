@@ -23,6 +23,23 @@
         viewer.setEnabledLayerIds(layerIds)
       }
 
+      viewer.on('click', function (e) {
+        const iconLibrary = viewer.getLoadedIconLibrary()
+        for (var i = 0; i < e.features.length; ++i) {
+          const feature = e.features[i]
+          console.log('latlng', feature.getPoint())
+          if (['fixedIcon', 'leaderLineIcon', 'zonedIcon'].includes(feature.getType())) {
+            // get data for each icon
+            console.log('icons', feature.getIconTypes().map(type => ({
+              // properties: iconLibrary.getIconByType(type), // icon library properties
+              // code: feature.getCode(),
+              data: feature.getIconData() // custom data set on this particular icon instance
+            })))
+          }
+        }
+      })
+
+
     </script>
   </body>
 </html>

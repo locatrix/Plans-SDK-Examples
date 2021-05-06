@@ -31,9 +31,8 @@
           if (['fixedIcon', 'leaderLineIcon', 'zonedIcon'].includes(feature.getType())) {
             // get data for each icon
             console.log('icons', feature.getIconTypes().map(type => ({
-              // properties: iconLibrary.getIconByType(type), // icon library properties
-              // code: feature.getCode(),
-              data: feature.getIconData() // custom data set on this particular icon instance
+              properties: iconLibrary.getIconByType(type), // icon library properties
+              data: feature.getIconData(type) // custom data set on this icon instance
             })))
           }
         }

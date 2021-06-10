@@ -10,19 +10,19 @@ This is a console application that illustrates how to generate both a `bearer to
 
 ## Quick Start
 
-1. dotnet run to generate ```viewer token```
-1. paste ```viewer token``` into javascript-myo-plan-viewer\my-plan-viewer.html at teh appropriate point (see below)
-1. view your [MYO Plan Viewer](javascript-myo-plan-viewer\my-plan-viewer.html) in a browser
+1. dotnet run to generate ```viewerToken```.
+1. paste ```viewerToken``` into my-plan-viewer.html at the appropriate line (see below).
+1. view your [Plan Viewer](my-plan-viewer.html) in a browser.
 
 ## Deep Dive
 
-- the ```viewer token``` displayed on the console is valid for 1 hour.
-- test out the generated `viewer token` in the example viewer HTML in the file (javascript-myo-plan-viewer\my-plan-viewer.html) in the line that reads
+- the ```viewerToken``` displayed on the console is valid for 1 hour.
+- test out the generated `viewerToken` in the example viewer HTML in the file (javascript-myo-plan-viewer\my-plan-viewer.html) in the line that reads
 ```javascript
         // ---------------------------------------
-        // Add your viewer token here - from ESAPI
+        // Add your viewerToken here - from ESAPI
         // ---------------------------------------
-        var allAreasToken = "<your view token>";
+        var allAreasToken = "<your viewerToken>";
 ```
-- a ```viewer token``` can be used multiple times until it expires.
-- a new ```viewer token``` is created for each run.
+- a ```viewerToken``` can be used multiple times until it expires.
+- a new ```viewerToken``` is created for each run.

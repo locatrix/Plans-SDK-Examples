@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://api.locatrix.com/plans-javascript/v1/sdk.js"></script>
+    <title>Locatrix - Make Your Own (MYO) PlanViewer</title>
+    <style>
+        .main-div {
+            height: 100%;
+        }
+
+        .floorplan-container {
+            height: 100%;
+            width: 80%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .interactive-container {
+            height: 100%;
+        }
+
+        .custom-container {
+            margin-left: 0;
+            width: 20%;
+            text-align: center;
+            overflow: auto;
+            background-color: white;
+            box-sizing: border-box;
+            background: #F2F3F3;
+            z-index: 9999;
+        }
+
+        .content-container {
+            position: absolute;
+            right: 0;
+            text-align: left;
+            margin-left: 10px;
+            width: 20%;
+        }
+
+        .ribbon-container {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            margin-left: 0;
+            width: 20%;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            border-top: 1px solid #F2F3F3;
+        }
+
+        img {
+            padding: 5px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-div">
+        <div class="floorplan-container">
+            <div id="js-react-interactive-renderer" class="interactive-container"></div>
+        </div>
+        <div class="custom-container">
+            <div id="content-renderer" class="content-container">Custom content can be rendered here.</div>
+            <div id="ribbon-renderer" class="ribbon-container">loading ...</div>
+        </div>
+    </div>
+    <br>
+    <script type="text/javascript">
+        // ---------------------------------------
+        // Add your viewer token here - from ESAPI
+        // ---------------------------------------
+        var allAreasToken = "<your view token>";
+        allAreasToken = "djE6YWxsQXJlYXM6cGxuX2VyYWhubThmamZiMnRvMWpqYXM2anFraDA6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjE2MjMzNjgzODgsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLDRhZG4lMmZEbHdKcjFKZTFZTyUyYnNndmd2bUJucVglMmZZYnVjamZSMDhtSDNrd0klM2Q=";
+
+        // ---------------------------------------
+        // Feature specific HTML render functions
+        // ---------------------------------------
+        function displayIconTrainingContent(e) {
+            var html = "";
+            for (f in e.features) {
+
+                if (e.features[f].getIconTypes === undefined) {
+                    html += "<p>name:" + e.features[f].getType() + "</p>";
+                }
+                else {
+                    var iconTypes = e.features[f].getIconTypes();
+                    for (j in iconTypes) {
+                        var iconProperties = iconLibrary.getIconByType(iconTypes[j]);
+                        html += "<pre><div style='border: " + iconProperties.color + " 1px solid;'><span><img src='" + iconProperties.imageUrl + "'/>" + iconProperties.name + "</span></div>";
+                        html += "<p>name:" + iconProperties.name + "</p>";
+                        html += "<p>iconType:" + iconProperties.iconType + "</p>";
+                        html += "<p>legendName:" + iconProperties.legendName + "</p>";
+                        html += "<p>color:" + iconProperties.color + "</p></pre>";
+                    }
+                }
+            }
+            html += "<br/><br/>This is where you might perform an XHtmlRequest/AJAX request to your system to get the appropriate response to an icon selection.";
+            return html;
+        }
+
+        function displayZoneContent(e) {
+            for (f in e.features) {
+                if (e.features[f].getZoneName === undefined) {
+                    html += "<p>name:" + e.features[f].getType() + "</p>";
+                }
+                else {
+
+                    var html = "Zone '" + e.features[f].getZoneName() + "' features was clicked."
+                }
+            }
+            html += "<br/><br/>This is where you might perform an XHtmlRequest/AJAX request to your system to get the appropriate response to a 'Zone' selection.";
+            return html;
+        }
+
+        // ---------------------------------------
+        // Viewer prototype convenience extensions
+        // ---------------------------------------
+        locatrix.plans.Viewer.prototype.createIconRibbon = function (target) {
+            var observer = new locatrix.plans.ViewerObserver([this]);
+
+            observer.on('load', e => {
+                loadedPlan = this.getLoadedPlan();
+                iconLibrary = this.getLoadedIconLibrary();
+
+                // Create an icon on the ribbon for each icon on the plan
+                var iconsTypes = loadedPlan.getIconTypes();
+                var html = "";
+                for (i in iconsTypes) {
+                    var iconProperties = iconLibrary.getIconByType(iconsTypes[i]);
+                    html += "<img title='" + iconProperties.legendName + "' src='" + iconProperties.imageUrl + "' />";
+                }
+
+                var targetHtmlElement = document.getElementById(target);
+                targetHtmlElement.innerHTML = html;
+            });
+        }
+
+        locatrix.plans.Viewer.prototype.onClick = function (forFeatureType, callbackFn, target) {
+            this.on("click", function (e) {
+
+                if (e.features.length > 0 && e.features[0].getType() === forFeatureType) {
+                    html = callbackFn(e);
+                    var targetHtmlElement = document.getElementById(target);
+                    targetHtmlElement.innerHTML = html;
+                }
+            });
+        }
+
+        locatrix.plans.Viewer.prototype.hideLayers = function (disabledLayers) {
+            var layersOptions = {
+                collapseGroups: true
+            };
+            var enabledLayers = this.getEnabledLayerIds(layersOptions).filter(el => !disabledLayers.includes(el));
+            this.setEnabledLayerIds(enabledLayers);
+        }
+
+        // ---------------------------------------
+        // Configure your PlanViewer as required
+        // ---------------------------------------
+        var myPlanViewer = new locatrix.plans.Viewer(document.getElementById('js-react-interactive-renderer'));
+        myPlanViewer.hideLayers(['graphic']);
+        myPlanViewer.createIconRibbon('ribbon-renderer');
+        myPlanViewer.onClick('leaderLineIcon', displayIconTrainingContent, 'content-renderer');
+        myPlanViewer.onClick('exitSign', displayIconTrainingContent, 'content-renderer');
+        myPlanViewer.onClick('fixedIcon', displayIconTrainingContent, 'content-renderer');
+        myPlanViewer.onClick('evacSign', displayIconTrainingContent, 'content-renderer');
+        myPlanViewer.onClick('zone', displayZoneContent, 'content-renderer');
+        var minimap = myPlanViewer.widgets.minimap;
+        minimap.setEnabled(true);
+        var zoomControls = myPlanViewer.widgets.zoomControls;
+        var zoomControlsEnabled = zoomControls.getEnabled();
+
+        var options = {
+            enableAllIcons: true,
+            useNaturalRotation : true
+        }; 
+        myPlanViewer.loadPlan(allAreasToken, options);
+    </script>
+</body>
+
+</html>

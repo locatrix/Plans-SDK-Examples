@@ -61,14 +61,25 @@ namespace esapi_building_footprints
                             {
                                 Console.Out.WriteLine($"      Building: {building.Name} [{building.Code}]");
 
-                                var response = Helpers.GetBuildingOutline(BearerToken, partner.Code, building.Code);
+                                var response = Helpers.GetBuildingOutline(BearerToken, partner.Code, campus.Code, building.Code);
 
                                 if (response.StatusCode == HttpStatusCode.OK)
                                 {
+                                    // Add building outline
                                     var outline = JsonPrettify(response.Content);
                                     writeFile.WriteLine($"buildings.push({outline});");
-                                 
-                                    var pin = JsonPrettify(CreateDropPin(partner, client, campus, building));
+
+                                    // Add the drop pin
+                                    var longitude = campus.Longitude.ToString();
+                                    var latitude = campus.Latitude.ToString();
+                                    dynamic geojson = JsonConvert.DeserializeObject<dynamic>(outline);
+                                    var buildingCentroid = geojson.features[0].properties.centroid;
+                                    if (buildingCentroid != null)
+                                    {
+                                        longitude = buildingCentroid.longitude;
+                                        latitude = buildingCentroid.latitude;
+                                    }
+                                    var pin = JsonPrettify(CreateDropPin(partner, client, campus, building, longitude, latitude));
                                     writeFile.WriteLine($"buildings.push({pin});");
                                 }
                                 else
@@ -91,7 +102,8 @@ namespace esapi_building_footprints
 
         private static string CreateDropPin(HierarchyModels.PartnerViewModel partner,
             HierarchyModels.ClientSummaryModel client, HierarchyModels.CampusViewModel campus,
-            HierarchyModels.BuildingViewModel building)
+            HierarchyModels.BuildingViewModel building,
+            string longitude, string latitude)
         {
             var viewToken = Helpers.GetCampusViewerToken(Program.BearerToken, partner.Code, campus.Code);
             var embedApiUrlCampus = $"{EmbedApiUrl}/plan?interactive=true&viewerToken=" + viewToken.ViewerTokens.AllAreas;
@@ -102,7 +114,7 @@ namespace esapi_building_footprints
             var dropPinGeoJson = @$"{{'type': 'Feature',
                                     'geometry': {{
                                         'type': 'Point',
-                                        'coordinates': [{campus.Longitude}, {campus.Latitude}]
+                                        'coordinates': [{longitude}, {latitude}]
                                     }},
                                     'properties': {{
                                         'description': '{HttpUtility.JavaScriptStringEncode(building.Address)}',

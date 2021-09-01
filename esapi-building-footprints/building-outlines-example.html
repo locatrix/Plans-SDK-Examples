@@ -32,10 +32,15 @@
 	<script>
 		function onEachFeature(feature, layer) {
 
+			if ((feature.properties === undefined) || (feature.properties.partner === undefined))
+                return;
+
             var popupContent = "";
             if (feature.properties.error === 'True') {
                 popupContent += "<p>" + feature.properties.message + "</p>";
-            } else {
+			}
+            else
+            {
                 if (feature.properties.partner !== undefined) {
                     popupContent += "Partner: <b>" + feature.properties.partner + "</b><br/>";
                     popupContent += "Client: <b>" + feature.properties.client + "</b><br/>";
@@ -72,7 +77,7 @@
 						color: '#111111',
 						fillOpacity: 0.1,
 					},
-					onEachFeature: onEachFeature,
+                    onEachFeature: onEachFeature,
 				}).addTo(mymap);
 			}
 		);

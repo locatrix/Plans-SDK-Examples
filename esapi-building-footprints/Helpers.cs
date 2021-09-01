@@ -101,7 +101,24 @@ namespace esapi_building_footprints
             return obj;
         }
 
-        public static IRestResponse GetBuildingOutline(string bearerToken, string partnerCode, string buildingCode)
+        public static PlanMetadata GetCampusMetadata(string bearerToken, string partnerCode, string campusCode)
+        {
+            var client = new RestClient($"{Program.EnterpriseServicesApiUrl}/Campuses/{campusCode}/Metadata");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Authorization", bearerToken);
+            request.AddHeader("X-CSS-Partner-Code", partnerCode);
+            var response = client.Execute(request);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                return new PlanMetadata(){SpatialMetadata = new SpatialMetadata(){BuildingFootprints = new List<BuildingFootprintsMetadata>()}};
+
+            var obj = GetResponseObject<PlanMetadata>(response);
+            return obj;
+        }
+
+        public static IRestResponse GetBuildingOutline(string bearerToken, string partnerCode, string campusCode, string buildingCode)
         {
             var client = new RestClient($"{Program.EnterpriseServicesApiUrl}/Buildings/{buildingCode}/Outlines");
             client.Timeout = -1;
@@ -110,8 +127,22 @@ namespace esapi_building_footprints
             request.AddHeader("Authorization", bearerToken);
             request.AddHeader("X-CSS-Partner-Code", partnerCode);
             var response = client.Execute(request);
-
+        
             return response;
+        }
+        
+        public static ViewTokenModels.BuildingInfoViewModel GetBuilding(string bearerToken, string partnerCode, string buildingCode)
+        {
+            var client = new RestClient($"{Program.EnterpriseServicesApiUrl}/Buildings/{buildingCode}");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Authorization", bearerToken);
+            request.AddHeader("X-CSS-Partner-Code", partnerCode);
+            var response = client.Execute(request);
+
+            var obj = GetResponseObject<ViewTokenModels.BuildingInfoViewModel>(response);
+            return obj;
         }
 
         private static T GetResponseObject<T>(IRestResponse response) where T : new()

@@ -1,0 +1,42 @@
+﻿@page
+@model esapi_browser.Pages.ClientModel
+@{
+    ViewData["Title"] = "Campuses";
+}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Partners</a></li>
+    <li class="breadcrumb-item"><a href="/partner?ptnr=@Model.PartnerCode">Clients</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Campuses</li>
+  </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Campuses</h4>
+            @if (Model.Campuses == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else if (Model.ErrorMessage != null)
+            {
+                <p class="alert alert-danger">@Model.ErrorMessage</p>
+            }
+            else
+            {
+                <ul class="list-group">
+                @foreach (var campus in Model.Campuses.Campuses)
+                {
+                    <li class="list-group-item">
+                        <a href="/campus?ptnr=@Model.PartnerCode&clnt=@Model.ClientCode&camp=@campus.Code">@campus.Name</a>
+                    </li>
+                }
+                </ul>
+            }
+        </div>
+    </div>
+</div>
+
+

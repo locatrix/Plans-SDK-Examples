@@ -5,6 +5,18 @@
 	<title>Locatrix Plans SDK: Use of hosted Embed API to show simple interactive plan viewers</title>
 </head>
 <title>Locatrix Plans SDK example - Embed API</title>
+<script>
+	// Set viewer tokens once here
+	const VIEWER_TOKENS = {
+		token1: 'djE6YWxsQXJlYXM6cGxuX3htbWRubGVkMGk1M3h1NzF1ejJ1bW41OHc6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNjYsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLEElMmJMbmZtbWFtSHliSFdocW5ZZXJMbVRUcGZZUWQ0ZlRqWmI0dEtDQXdpdyUzZA==',
+		token2: 'djE6YWxsQXJlYXM6cGxuXzVzOWwzeDFyaGs5amw3b3BlaDc5NWxmNDM6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNjcsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLHEzRkk3YjVXRHdCYlprNiUyZlRnV0pjdmJiVWF5MGRVemNJNjNRMm1DdHNQayUzZA==',
+		token3: 'djE6YWxsQXJlYXM6cGxuX2thOGlka24zNTlrNHI1dm8ybzcxZHhqeWU6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTI4ODcyODMsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLHFIVVAlMmJvWk90SXVuWmREd2FZNVZoVTloZ3dHUnh5UW9iRnVqQ3hmUWJrayUzZA==',
+		token4: 'djE6YWxsQXJlYXM6cGxuX2J3djFsMmU3bXMzZjhtODVnMTdyanc0OTc6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTI4ODcyNDYsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLGI0bnJxYWZKQyUyYlZKRVdJYjFuUyUyYlhGanJ6UEclMmJLWExSODBMWUxIMVM4SkElM2Q=',
+		token5: 'djE6YWxsQXJlYXM6cGxuX2kzMXZyMmxhamE3aWVjZGR2MHR2ZjlnZ3M6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTI4ODY2NDYsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLExCNlhpTFhWOUdZU29RbU9ZUW9JSmFma1VYcFJPeWdhUEo4TW53TEo2RFUlM2Q='
+	};
+
+	const EMBED_BASE_URL = 'https://api.locatrix.com/plans-embed/v1/plan';
+</script>
 <style>
 	#map {
 		height: 100%;
@@ -69,31 +81,41 @@
 		
 		<h1>Campus: Locatrix Plans SDK Partner>PlanStudio Academy>Locatrix World HQ</h1>
 		<h2>Siteplan: Locatrix World HQ</h2>
-		<iframe
-			src='https://api.locatrix.com/plans-embed/v1/plan?interactive=true&viewerToken=djE6YWxsQXJlYXM6cGxuX3htbWRubGVkMGk1M3h1NzF1ejJ1bW41OHc6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNjYsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLEElMmJMbmZtbWFtSHliSFdocW5ZZXJMbVRUcGZZUWQ0ZlRqWmI0dEtDQXdpdyUzZA=='>
-		</iframe>
+		<iframe id="token1"></iframe>
 		<h3>Building: HQ Building 1</h3>
 		<h4>Floor: Level 1</h4>
-		<iframe
-			src='https://api.locatrix.com/plans-embed/v1/plan?layers=structure,equipment,indicators,zone,sign&interactive=true&viewerToken=djE6YWxsQXJlYXM6cGxuXzVzOWwzeDFyaGs5amw3b3BlaDc5NWxmNDM6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNjcsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLHEzRkk3YjVXRHdCYlprNiUyZlRnV0pjdmJiVWF5MGRVemNJNjNRMm1DdHNQayUzZA=='>
-		</iframe>
+		<iframe id="token2"></iframe>
 
 		<h1>Campus: Bottleshop</h1>
 		<h3>Building: Drive Thru & Shop</h3>
 		<h4>Floor: Shop</h4>
-		<iframe
-			src='https://api.locatrix.com/plans-embed/v1/plan?layers=structure,equipment,zone&interactive=true&viewerToken=djE6YWxsQXJlYXM6cGxuX2thOGlka24zNTlrNHI1dm8ybzcxZHhqeWU6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTI4ODcyODMsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLHFIVVAlMmJvWk90SXVuWmREd2FZNVZoVTloZ3dHUnh5UW9iRnVqQ3hmUWJrayUzZA=='>
-		</iframe>
+		<iframe id="token3"></iframe>
 		
 		<h1>Campus: Locatrix Plans SDK Partner>PlanStudio Academy>Hyperdome Shopping Centre</h1>
 		<h2>Siteplan: Hyperdome Shopping Centre</h2>
-		<iframe
-			src='https://api.locatrix.com/plans-embed/v1/plan?interactive=true&viewerToken=djE6YWxsQXJlYXM6cGxuX2J3djFsMmU3bXMzZjhtODVnMTdyanc0OTc6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTI4ODcyNDYsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLGI0bnJxYWZKQyUyYlZKRVdJYjFuUyUyYlhGanJ6UEclMmJLWExSODBMWUxIMVM4SkElM2Q='></iframe>
+		<iframe id="token4"></iframe>
 		<h3>Building: Main Concourse</h3>
 		<h4>Floor: Main Concourse & Rotunda</h4>
-		<iframe
-			src='https://api.locatrix.com/plans-embed/v1/plan?layers=structure,equipment,zone&interactive=true&viewerToken=djE6YWxsQXJlYXM6cGxuX2kzMXZyMmxhamE3aWVjZGR2MHR2ZjlnZ3M6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTI4ODY2NDYsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLExCNlhpTFhWOUdZU29RbU9ZUW9JSmFma1VYcFJPeWdhUEo4TW53TEo2RFUlM2Q='></iframe>
+		<iframe id="token5"></iframe>
 	</div>
+
+	<script>
+		function setIframeSrc(id, params) {
+			const url = new URL(EMBED_BASE_URL);
+			url.searchParams.set('interactive', 'true');
+			url.searchParams.set('viewerToken', VIEWER_TOKENS[id]);
+			if (params && params.layers) {
+				url.searchParams.set('layers', params.layers);
+			}
+			document.getElementById(id).src = url.toString();
+		}
+
+		setIframeSrc('hqSiteplan');
+		setIframeSrc('hqBuilding1Level1', { layers: 'structure,equipment,indicators,zone,sign' });
+		setIframeSrc('bottleshop', { layers: 'structure,equipment,zone' });
+		setIframeSrc('hyperdomeSiteplan');
+		setIframeSrc('hyperdomeMainConcourse', { layers: 'structure,equipment,zone' });
+	</script>
 
 </body>
 

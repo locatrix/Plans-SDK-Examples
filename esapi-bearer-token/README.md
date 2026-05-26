@@ -10,6 +10,21 @@ This is a console application that simply generates a bearer token that is requi
 
 ## Quick Start
 
+### Get Token Credentials
+
+See: https://api.locatrix.com/docs/esapi/authentication.html for how to get your API credentials.
+
+You will need the following:
+
+- Application ID
+- Application Secret
+- API Key
+- API Secret
+
+For this example, these credentials will need to be placed in `Program.cs` in the first few lines of the main routine.
+
+### Running the App
+
 `dotnet run`
 
 ## Deep Dive

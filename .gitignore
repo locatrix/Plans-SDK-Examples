@@ -1,5 +1,6 @@
 ﻿*.suo
-esapi-building-footprints/.vs/esapi-building-footprints/DesignTimeBuild/.dtbcache.v2
 *.user
-esapi-building-footprints/.vs/esapi-building-footprints/config/applicationhost.config
-esapi-building-footprints/.vscode
+**/.idea
+**/.vs
+**/bin
+**/obj

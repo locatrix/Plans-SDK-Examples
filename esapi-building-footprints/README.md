@@ -41,10 +41,25 @@ The example also illustrates the mechanism to create an Embed API viewing token 
 
 ## Prerequisites
 
-- [.NET Core 3.1.402](https://dotnet.microsoft.com/download/dotnet-core/3.1) or higher.
+- [.NET 10](https://dotnet.microsoft.com/en-us/download) or higher.
 - The application must have been executed at least once to generate the data file against your partnership.
 
 ## Quick Start
+
+### Set Up API Credentials
+
+See: https://api.locatrix.com/docs/esapi/authentication.html.
+
+You will need the following:
+
+- Application ID
+- Application Secret
+- API Key
+- API Secret
+
+These credentials should be set up in `Program.cs`. 
+
+### Run the App
 
 * `dotnet run` 
 *  When finished executing open [the statically served HTML file](file://building-outlines-example.html) from Windows File Explorer to view the map in your browser.

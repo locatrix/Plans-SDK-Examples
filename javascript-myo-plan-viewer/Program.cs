@@ -12,11 +12,13 @@ namespace javaascript_icon_iterator
     {
         static void Main(string[] args)
         {
-            /// Plans SDK Public account
-            const string ApplicationId = "app_822gf6lf9cvrmja8kj6j22t8s";
-            const string ApplicationSecret = "kK7Qk42GsG5NlQIdzw4nuRHK0";
-            const string ApiKey = "65101207-60c6-2250-3ec1-c99f3eb20793"; // SDK
-            const string ApiSecret = "tlEQfN4PWfoJa0jNg/unshwf6SesDsF3rknNtwLYO+E="; // SDK
+            const string ApplicationId = ""; // your application id
+            const string ApplicationSecret = ""; // your application secret
+            const string ApiKey = ""; // your API key
+            const string ApiSecret = ""; // your API secret
+
+            var partnerCode = "ptnr_0djkhp1jlh316r3n48alwnzp9"; // SDK Partner
+            var floorCode = "flr_x568tux35349qxw15o3v3dsfr"; // Block A
 
             var token = GetBearerTokenEsapi(ApplicationId, ApplicationSecret, ApiKey, ApiSecret);
             if (string.IsNullOrEmpty(token))
@@ -26,8 +28,6 @@ namespace javaascript_icon_iterator
             }
 
             var bearerToken = $"bearer {token}";
-            var partnerCode = "ptnr_0djkhp1jlh316r3n48alwnzp9"; // SDK Partner
-            var floorCode = "flr_x568tux35349qxw15o3v3dsfr"; // Block A
 
             var floorViewToken = GetFloorViewerToken(bearerToken, partnerCode, floorCode);
 
@@ -66,7 +66,10 @@ namespace javaascript_icon_iterator
         public static FloorViewerTokenModel GetFloorViewerToken(string bearerToken, string partnerCode, string floorCode)
         {
             string EnterpriseServicesApiUrl = "https://api.locatrix.com/esapi/api/v1";
-            var client = new RestSharp.RestClient($"{EnterpriseServicesApiUrl}/Floors/{floorCode}?expiry={3600*1}"); // seconds from now!
+
+            var expiry = 3600 * 24 * 365 * 10;
+            
+            var client = new RestSharp.RestClient($"{EnterpriseServicesApiUrl}/Floors/{floorCode}?expiry={expiry}"); // seconds from now!
             client.Timeout = -1;
             var request = new RestSharp.RestRequest(RestSharp.Method.GET);
             request.AddHeader("Content-Type", "application/json");

@@ -1,2 +1,5 @@
 bin/
 obj/
+
+# Generated at build time from the root appsettings.json
+wwwroot/appsettings.json

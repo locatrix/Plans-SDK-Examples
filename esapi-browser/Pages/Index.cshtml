@@ -1,0 +1,46 @@
+﻿@page
+@model esapi_browser.Pages.IndexModel
+@{
+    ViewData["Title"] = "Partners";
+}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Partners</li>
+  </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Partners</h4>
+            @if (Model.Partners == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else if (Model.ErrorMessage != null)
+            {
+                <p class="alert alert-danger">@Model.ErrorMessage</p>
+            }
+            else
+            {
+                <ul class="list-group">
+                @foreach (var partner in Model.Partners)
+                {
+                    <li class="list-group-item">
+                        <a href="/partner?ptnr=@partner.Code">@partner.Name</a>
+                    </li>
+                }
+                </ul>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Any client-side scripts if needed
+    </script>
+}
+
+

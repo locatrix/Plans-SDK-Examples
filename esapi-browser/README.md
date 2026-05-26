@@ -10,6 +10,21 @@ This is a simple starter application for the [Enterprise Services API](https://a
 
 ## Quick Start
 
+### Set Up API Credentials
+
+See: https://api.locatrix.com/docs/esapi/authentication.html.
+
+You will need the following:
+
+- Application ID
+- Application Secret
+- API Key
+- API Secret
+
+These credentials should be included in [appsettings.json](./appsettings.json) under "EsapiSettings".
+
+### Run the App
+
 `dotnet run` and then open [https://localhost:5001](https://localhost:5001) in your browser.
 
 ## Deep Dive

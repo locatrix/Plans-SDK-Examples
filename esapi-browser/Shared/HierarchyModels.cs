@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-partial class HierarchyModels
+public partial class HierarchyModels
 {
   public class SquareMeter
   {

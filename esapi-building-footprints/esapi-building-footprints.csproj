@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>esapi_building_footprints</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <LangVersion>14</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="4.4.0" />

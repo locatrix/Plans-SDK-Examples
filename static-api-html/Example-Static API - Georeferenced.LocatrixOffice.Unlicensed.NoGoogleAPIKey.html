@@ -18,7 +18,16 @@
   <body>
     <div id="map"></div>
     <script>
-      var QUERY_ARGS = 'partner=ptnr_0djkhp1jlh316r3n48alwnzp9&floor=flr_oopxxdnfthppgvlgunj46p7dn&format=png&w=1024&h=1024&expiry=2055369600&rotation=northUp&apikey=65101207-60c6-2250-3ec1-c99f3eb20793&sas=gE8LRRlH3Jw5zJoPiBBtojU6robHJwulxkoNp%2BMIFEo%3D'
+      // Your API credentials.
+      var apiKey = '';
+      var sas = '';
+
+      var partnerCode = 'ptnr_0djkhp1jlh316r3n48alwnzp9';
+      var floorCode = 'flr_oopxxdnfthppgvlgunj46p7dn';
+      var format = 'png';
+      var expiry = 2055369600; // 1 Jan 2035, in seconds since epoch
+
+      var QUERY_ARGS = `partner=${partnerCode}&floor=${floorCode}&format=${format}&w=1024&h=1024&expiry=${expiry}&rotation=northUp&apikey=${apiKey}&sas=${sas}`
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 20,

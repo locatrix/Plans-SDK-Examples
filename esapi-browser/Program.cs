@@ -1,25 +1,43 @@
 using System;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Text;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 
 namespace esapi_browser
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
+            var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            // Add services to the container
+            builder.Services.AddRazorPages();
+            builder.Services.AddControllers();
 
-            await builder.Build().RunAsync();
+            // Register EsapiSettings from server-side configuration
+            var esapiSettings = new EsapiSettings();
+            builder.Configuration.GetSection("EsapiSettings").Bind(esapiSettings);
+            builder.Services.AddSingleton(esapiSettings);
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseRouting();
+
+            app.MapRazorPages();
+            app.MapControllers();
+
+            app.Run();
         }
     }
 }

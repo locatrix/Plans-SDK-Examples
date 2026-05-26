@@ -7,11 +7,8 @@ public static class Prefixes {
 }
 
 public static class Constants {
-        public static readonly string ApiKey = "65101207-60c6-2250-3ec1-c99f3eb20793"; // TODO: fill this in with your own API key
-        public static readonly string ApiSecret = "tlEQfN4PWfoJa0jNg/unshwf6SesDsF3rknNtwLYO+E="; // TODO: fill this in with your own API secret
-        
-        public static readonly string ApplicationId = "app_822gf6lf9cvrmja8kj6j22t8s";
-        public static readonly string ApplicationSecret = "kK7Qk42GsG5NlQIdzw4nuRHK0";
+        // ApiKey, ApiSecret, ApplicationId and ApplicationSecret have moved to
+        // wwwroot/appsettings.json and are loaded via the EsapiSettings type (see Program.cs).
 
         public static readonly string EnterpriseServicesApiUrl = "https://api.locatrix.com/esapi/api/v1";
         public static readonly string EmbedApiUrl = "https://api.locatrix.com/plans-embed/v1";

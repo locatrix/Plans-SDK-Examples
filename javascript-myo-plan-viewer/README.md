@@ -6,7 +6,7 @@ This is a console application that illustrates how to generate both a `bearer to
 
 ## Prerequisites
 
-- [.NET Core 3.1.402](https://dotnet.microsoft.com/download/dotnet-core/3.1) or higher.
+- [.NET 10](https://dotnet.microsoft.com/download/dotnet) or higher.
 
 ## Quick Start
 

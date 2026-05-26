@@ -41,7 +41,7 @@ static class Helpers
         return await httpResponse.Content.ReadFromJsonAsync<HierarchyModels.CampusViewModel>();
     }
 
-    private static T GetResponseObject<T>(IRestResponse response) where T : new()
+    private static T GetResponseObject<T>(RestResponse response) where T : new()
     {
         if (response.StatusCode != System.Net.HttpStatusCode.OK)
             throw new System.Exception($"Could not get events from ESAPI: {response.StatusCode}");
@@ -75,12 +75,11 @@ static class Helpers
 
     public static CampusViewerTokenModel GetCampusViewerToken(string bearerToken, string partnerCode, string campusCode)
     {
-        var client = new RestClient($"{Constants.EnterpriseServicesApiUrl}/Campuses/{campusCode}?partnerCode={partnerCode}&viewerTokenLifetime={Constants.TokenValidityMinutes}"); // minutes from now!
-        client.Timeout = -1;
-        var request = new RestRequest(Method.GET);
+        var restClient = new RestClient($"{Constants.EnterpriseServicesApiUrl}/Campuses/{campusCode}?partnerCode={partnerCode}&viewerTokenLifetime={Constants.TokenValidityMinutes}");
+        var request = new RestRequest();
         request.AddHeader("Content-Type", "application/json");
         request.AddHeader("Authorization", bearerToken);
-        IRestResponse response = client.Execute(request);
+        var response = restClient.ExecuteAsync(request).Result;
 
         var obj = GetResponseObject<CampusViewerTokenModel>(response);
         return obj;

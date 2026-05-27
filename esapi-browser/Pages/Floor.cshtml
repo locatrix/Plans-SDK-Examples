@@ -25,15 +25,8 @@
     {
         <p><em>Loading...</em></p>
     }
-    else if (Model.CanRenderEmbedIframe)
-    {
-        <iframe height="500px" width="100%" src="@Model.EmbedURL"></iframe>
-    }
     else
     {
-        <div class="alert alert-warning" role="alert">
-            This environment is not allowed by the embed page CSP to render the viewer in an iframe.
-            <a href="@Model.EmbedURL" target="_blank" rel="noopener noreferrer">Open the floor viewer in a new tab</a>.
-        </div>
+        <iframe height="500px" width="100%" src="@Model.EmbedURL"></iframe>
     }
 </div>

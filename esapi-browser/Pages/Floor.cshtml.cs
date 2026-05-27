@@ -17,7 +17,6 @@ namespace esapi_browser.Pages
         public string FloorCode { get; set; }
         public string EmbedURL { get; set; }
         public string ErrorMessage { get; set; }
-        public bool CanRenderEmbedIframe { get; private set; }
 
         public FloorModel(EsapiSettings settings)
         {
@@ -45,12 +44,10 @@ namespace esapi_browser.Pages
                 {
                     EmbedURL = $"{Constants.EmbedApiUrl}/plan?layers=structure,equipment,indicators,zone,sign&interactive=true&viewerToken=" + floor.ViewerTokens.AllAreas;
                 }
-
-                // The Locatrix embed endpoint rejects framing from localhost; only render iframe on known allowed hosts.
-                var host = Request?.Host.Host ?? string.Empty;
-                CanRenderEmbedIframe =
-                    host.Equals("api.locatrix.com", StringComparison.OrdinalIgnoreCase) ||
-                    host.Equals("plansstaticapidocs.z26.web.core.windows.net", StringComparison.OrdinalIgnoreCase);
+                else
+                {
+                    ErrorMessage = "Could not obtain viewer token for floor.";
+                }
             }
             catch (Exception ex)
             {

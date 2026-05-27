@@ -8,11 +8,11 @@
 <script>
 	// Set viewer tokens once here
 	const VIEWER_TOKENS = {
-		token1: 'djE6YWxsQXJlYXM6cGxuX3htbWRubGVkMGk1M3h1NzF1ejJ1bW41OHc6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNjYsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLEElMmJMbmZtbWFtSHliSFdocW5ZZXJMbVRUcGZZUWQ0ZlRqWmI0dEtDQXdpdyUzZA==',
-		token2: 'djE6YWxsQXJlYXM6cGxuXzVzOWwzeDFyaGs5amw3b3BlaDc5NWxmNDM6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTA2MjEyNjcsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLHEzRkk3YjVXRHdCYlprNiUyZlRnV0pjdmJiVWF5MGRVemNJNjNRMm1DdHNQayUzZA==',
-		token3: 'djE6YWxsQXJlYXM6cGxuX2thOGlka24zNTlrNHI1dm8ybzcxZHhqeWU6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTI4ODcyODMsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLHFIVVAlMmJvWk90SXVuWmREd2FZNVZoVTloZ3dHUnh5UW9iRnVqQ3hmUWJrayUzZA==',
-		token4: 'djE6YWxsQXJlYXM6cGxuX2J3djFsMmU3bXMzZjhtODVnMTdyanc0OTc6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTI4ODcyNDYsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLGI0bnJxYWZKQyUyYlZKRVdJYjFuUyUyYlhGanJ6UEclMmJLWExSODBMWUxIMVM4SkElM2Q=',
-		token5: 'djE6YWxsQXJlYXM6cGxuX2kzMXZyMmxhamE3aWVjZGR2MHR2ZjlnZ3M6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjI1NTI4ODY2NDYsNjUxMDEyMDctNjBjNi0yMjUwLTNlYzEtYzk5ZjNlYjIwNzkzLExCNlhpTFhWOUdZU29RbU9ZUW9JSmFma1VYcFJPeWdhUEo4TW53TEo2RFUlM2Q='
+		token1: 'djE6YWxsQXJlYXM6cGxuX3F1cHVhZHE5ZXVuMWZoYjR4Nmg5cTdmaTQ6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjIwOTUyMTQ2NTksZmQ3MWFiNjQtZjJkMi00ZjM1LTQ5YWMtNWQ3MGZmNDIyN2IwLGpOZG9hdHJYMFFaRUlvZDFvcDRadlJwWlVUUTN3THZnZUpDVTdjOGw1WkElM2Q=',
+		token2: 'djE6YWxsQXJlYXM6cGxuX3FzMTBveWh3bjlxeGkwcTA2aTFtOWhnMW86cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjIwOTUyMTUxMTAsZmQ3MWFiNjQtZjJkMi00ZjM1LTQ5YWMtNWQ3MGZmNDIyN2IwLGxOTnd2JTJiWFhpTkpWSUtXUXN5MjNwMHBXZkt1cjVDQVA2UUlibEFTdiUyZlh3JTNk',
+		token3: 'djE6YWxsQXJlYXM6cGxuX2l3cjBkbzlvcjV5bThzdnhxeHJyYzdheGw6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjE3Nzk4NTg5ODksZmQ3MWFiNjQtZjJkMi00ZjM1LTQ5YWMtNWQ3MGZmNDIyN2IwLGhLcHVLRjEwJTJmZ3N6REJXcTZLV1BzZjBMcGM2UGMyblJ4JTJmZzdLQ0wlMmZkQTAlM2Q=',
+		token4: 'djE6YWxsQXJlYXM6cGxuX3hxN2doNXE1OWR1eW1rMHRtZnBkM2plNmE6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjE3Nzk4NTkyNjQsZmQ3MWFiNjQtZjJkMi00ZjM1LTQ5YWMtNWQ3MGZmNDIyN2IwLHRTWFhwV1VaUjZtT2dBWXczU3ZtS0RldUVRZHNxM1oyOHhlWkgzWlFiVEklM2Q=',
+		token5: 'djE6YWxsQXJlYXM6cGxuX3cyanR5Z2picGp5Ymd4N2I4eXJ4NDF0cnk6cHRucl8wZGpraHAxamxoMzE2cjNuNDhhbHduenA5OjE3Nzk4NTk0MjcsZmQ3MWFiNjQtZjJkMi00ZjM1LTQ5YWMtNWQ3MGZmNDIyN2IwLHFQNWMycXJpbTE0blRJZHZiZjZLZUlqWjRhcWo4djFiTnMxTUowM20zOXclM2Q='
 	};
 
 	const EMBED_BASE_URL = 'https://api.locatrix.com/plans-embed/v1/plan';
@@ -79,23 +79,29 @@
 				href='https://planstudio.locatrix.com' target='_blank'>PlanStudio Web</a> will be reflected immediately on
 			saving. Tokens have an expiry.</p>
 		
-		<h1>Campus: Locatrix Plans SDK Partner>PlanStudio Academy>Locatrix World HQ</h1>
-		<h2>Siteplan: Locatrix World HQ</h2>
+		<h1>Campus: Superdome</h1>
+		<h3>Building: Superdome</h3>
+		<h4>Floor: Ground Level</h4>
 		<iframe id="token1"></iframe>
-		<h3>Building: HQ Building 1</h3>
-		<h4>Floor: Level 1</h4>
+		
+		<h1>Campus: Neptune's Bounty</h1>
+		<h3>Building: Reception and Office</h3>
+		<h4>Floor: Ground Level</h4>
 		<iframe id="token2"></iframe>
 
-		<h1>Campus: Bottleshop</h1>
-		<h3>Building: Drive Thru & Shop</h3>
-		<h4>Floor: Shop</h4>
+		<h1>Campus: ACME Robots</h1>
+		<h3>Building: AI Brain Training</h3>
+		<h4>Floor: Ground Level</h4>
 		<iframe id="token3"></iframe>
 		
-		<h1>Campus: Locatrix Plans SDK Partner>PlanStudio Academy>Hyperdome Shopping Centre</h1>
-		<h2>Siteplan: Hyperdome Shopping Centre</h2>
+		<h1>Campus: Superdome</h1>
+		<h3>Building: Complex 1</h3>
+		<h4>Floor: Ground Level</h4>
 		<iframe id="token4"></iframe>
-		<h3>Building: Main Concourse</h3>
-		<h4>Floor: Main Concourse & Rotunda</h4>
+
+		<h1>Campus: Pegasus University</h1>
+		<h3>Building: Library</h3>
+		<h4>Floor: Floor 1</h4>
 		<iframe id="token5"></iframe>
 	</div>
 
@@ -110,11 +116,11 @@
 			document.getElementById(id).src = url.toString();
 		}
 
-		setIframeSrc('hqSiteplan');
-		setIframeSrc('hqBuilding1Level1', { layers: 'structure,equipment,indicators,zone,sign' });
-		setIframeSrc('bottleshop', { layers: 'structure,equipment,zone' });
-		setIframeSrc('hyperdomeSiteplan');
-		setIframeSrc('hyperdomeMainConcourse', { layers: 'structure,equipment,zone' });
+		setIframeSrc('token1');
+		setIframeSrc('token2', { layers: 'structure,equipment,indicators,zone,sign' });
+		setIframeSrc('token3', { layers: 'structure,equipment,zone' });
+		setIframeSrc('token4');
+		setIframeSrc('token5', { layers: 'structure,equipment,zone' });
 	</script>
 
 </body>
